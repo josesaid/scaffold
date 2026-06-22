@@ -7,7 +7,8 @@
 ## Author
 
 **Jose Said Olano Garcia**
-Senior Software Engineer · Java & Microservices
+Senior Software Development Manager
+
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-josesaid-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/josesaid)
 [![GitHub](https://img.shields.io/badge/GitHub-josesaid-181717?style=flat&logo=github)](https://github.com/josesaid)
 

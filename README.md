@@ -112,7 +112,29 @@ A full REST API to manage application definitions before generation.
 | `PUT` | `/api/v1/applications/{id}` | Update application metadata and attributes |
 | `DELETE` | `/api/v1/applications/{id}` | Remove an application and its attributes |
 
-The `Application` entity supports a **two-level self-referential hierarchy**: a root application can contain child microservices. Child microservices cannot be nested further.
+**Request / entity fields:**
+
+| Field | Description |
+|---|---|
+| `name` | Application or microservice name |
+| `version` | Semantic version string |
+| `author` | Author name |
+| `description` | Short description |
+| `comments` | Free-text comments |
+| `notes` | Additional free-text notes |
+| `parentId` | ID of the root application this microservice belongs to (`null` for root applications) |
+| `attributes` | List of entity field definitions |
+
+**Response-only fields** (populated by the system after generation):
+
+| Field | Description |
+|---|---|
+| `id` | Database-assigned identifier |
+| `outputDirectory` | Absolute path where the generated project was written |
+| `assignedPort` | Port number assigned to this project by the Port Registry |
+| `microservices` | Summary list of child microservices (id, name, version) — populated only on root applications |
+
+The `Application` entity supports a **two-level self-referential hierarchy**: a root application can contain child microservices, each represented in the `microservices` summary field. Child microservices cannot be nested further.
 
 ---
 

@@ -232,6 +232,29 @@ The H2 console is available at **http://localhost:8080/h2-console** (JDBC URL: `
 
 Uncomment and configure the MySQL datasource block in `src/main/resources/application.properties`, then update `spring.jpa.hibernate.ddl-auto` to `validate` or `update`.
 
+### Configuration and secrets
+
+Credentials are never stored in this repository. They are read from environment variables:
+
+| Variable | Used by | Purpose |
+|---|---|---|
+| `SPRING_DATASOURCE_PASSWORD` | generated MySQL/PostgreSQL projects, `docker-compose.yml` | Database password |
+| `MYSQL_ROOT_PASSWORD` | `start_docker_containers.sh` | Root password for the MySQL container |
+| `MYSQL_PASSWORD` | `start_docker_containers.sh` | Password for the `said` MySQL user |
+| `POSTGRES_PASSWORD` | `start_docker_containers.sh` | Password for the PostgreSQL container |
+
+Example:
+
+```bash
+export MYSQL_ROOT_PASSWORD=choose-a-root-password
+export MYSQL_PASSWORD=choose-a-password
+export POSTGRES_PASSWORD=choose-a-password
+export SPRING_DATASOURCE_PASSWORD=$MYSQL_PASSWORD
+./src/main/resources/start_docker_containers.sh
+```
+
+The scripts stop with a clear message when a required variable is not set.
+
 ---
 
 ## Project Structure

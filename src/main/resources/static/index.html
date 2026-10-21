@@ -392,7 +392,7 @@
         <!-- Col 1: Project -->
         <div class="cfg-col">
           <div class="cfg-col-hdr" id="lblCfgProj">Project Configuration</div>
-          <div class="cfg-row"><span class="cfg-lbl">Group</span><div class="cfg-val"><input id="cfgGroup" type="text" value="com.mx.development.said" oninput="syncPkg();syncJSON()" onblur="syncJSON()"/></div></div>
+          <div class="cfg-row"><span class="cfg-lbl">Group</span><div class="cfg-val"><input id="cfgGroup" type="text" value="com.mx.development.jose.said" oninput="syncPkg();syncJSON()" onblur="syncJSON()"/></div></div>
           <div class="cfg-row"><span class="cfg-lbl">Artifact</span><div class="cfg-val"><input id="cfgArtifact" type="text" placeholder="e.g. students" oninput="syncPkg();syncJSON()" onblur="syncJSON()"/></div></div>
           <div class="cfg-row"><span class="cfg-lbl">Package</span><div class="cfg-val"><input id="cfgPkg" type="text" readonly style="color:var(--muted);cursor:default"/></div></div>
           <div class="cfg-row"><span class="cfg-lbl">Spring Boot</span><div class="cfg-val">
@@ -526,7 +526,7 @@
           <div class="sc-item"><label class="sc-lbl">Base directory</label><input class="sc-inp" id="settingsDir" type="text" placeholder="Auto (parent of scaffold)"/></div>
           <div class="sc-item"><label class="sc-lbl">Initial port</label><input class="sc-inp" id="settingsPort" type="number" value="8101"/></div>
           <div class="sc-item"><label class="sc-lbl">Default author</label><input class="sc-inp" id="settingsAuthor" type="text" placeholder="Said" onblur="applyAuthor()"/></div>
-          <div class="sc-item"><label class="sc-lbl">Package base</label><input class="sc-inp" id="settingsPkg" type="text" placeholder="com.mx.development.said" onblur="applyPkg()"/></div>
+          <div class="sc-item"><label class="sc-lbl">Package base</label><input class="sc-inp" id="settingsPkg" type="text" placeholder="com.mx.development.jose.said" onblur="applyPkg()"/></div>
         </div>
       </div>
       <div class="settings-sec">
@@ -941,7 +941,7 @@ function buildPayload(){
 function buildFull(){
   const p=buildPayload();
   const{_fmt,attributes:_attrs,...dto}=p;
-  return{...dto,springBootVersion:document.querySelector('input[name="sb"]:checked')?.value||'3.4.1',javaVersion:document.querySelector('input[name="java"]:checked')?.value||'21',basePackage:document.getElementById('cfgGroup').value.trim()||'com.mx.development.said',packaging:document.querySelector('input[name="pkg"]:checked')?.value||'jar',configFormat:_fmt||'properties',architecture:document.querySelector('input[name="arch"]:checked')?.value||'modular',
+  return{...dto,springBootVersion:document.querySelector('input[name="sb"]:checked')?.value||'3.4.1',javaVersion:document.querySelector('input[name="java"]:checked')?.value||'21',basePackage:document.getElementById('cfgGroup').value.trim()||'com.mx.development.jose.said',packaging:document.querySelector('input[name="pkg"]:checked')?.value||'jar',configFormat:_fmt||'properties',architecture:document.querySelector('input[name="arch"]:checked')?.value||'modular',
     kafkaProducer:document.getElementById('kafkaProducer')?.checked||false,
     kafkaConsumer:document.getElementById('kafkaConsumer')?.checked||false,
     kafkaTopic:document.getElementById('kafkaTopic')?.value||'my-topic',database:document.querySelector('input[name="db"]:checked')?.value||'h2',includeLombok:document.getElementById('depLombok').checked,includeMapstruct:document.getElementById('depMapstruct').checked,includeSecurity:document.getElementById('depSecurity').checked,includeCache:document.getElementById('depCache').checked,includeActuator:document.getElementById('depActuator').checked,includeSwagger:document.getElementById('depSwagger').checked,generateUnitTests:document.getElementById('extUnitTests').checked,generateIntegrationTests:document.getElementById('extIntTests').checked,generateDockerfile:document.getElementById('extDockerfile').checked,generateReadme:document.getElementById('extReadme').checked,generatePostmanCollection:document.getElementById('extPostman').checked,attributes:(_attrs&&_attrs.length>0)?_attrs:[{name:'id',type:'Long',validations:[],nullable:false,unique:false,pk:true,maxLen:null}]};

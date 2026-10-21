@@ -34,3 +34,8 @@ target/
 
 ### OS ###
 .DS_Store
+
+### Environment and secrets ###
+.env
+*.env
+.transfer-tmp.tgz

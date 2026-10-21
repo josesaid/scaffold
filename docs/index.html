@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>scaffold — Spring Boot Project Generator</title>
+  <meta name="description" content="Scaffold: a Spring Boot platform that generates ready-to-run microservice projects from a web UI or an HTTP request.">
+  <!-- Theme: Terminal Amber (black background, amber accent, phosphor glow). Each repository uses a different Pages theme. -->
+  <style>
+    :root { --bg:#000000; --panel:#0c0a04; --fg:#ffb000; --muted:#b37d00; --accent:#ffc233; --accent2:#ffd966; --border:#4d3700; --code:#140e00; }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) { --bg:#fff8e6; --panel:#fffdf5; --fg:#4a3300; --muted:#7a5a00; --accent:#b36b00; --accent2:#8a5200; --border:#e6cf8a; --code:#fff1c2; }
+    }
+    :root[data-theme="light"] { --bg:#fff8e6; --panel:#fffdf5; --fg:#4a3300; --muted:#7a5a00; --accent:#b36b00; --accent2:#8a5200; --border:#e6cf8a; --code:#fff1c2; }
+    * { box-sizing: border-box; }
+    body { margin:0; color:var(--fg); background: radial-gradient(900px 500px at 50% -10%, rgba(255,176,0,0.10), transparent 60%), var(--bg); min-height:100vh;
+      font:16px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); }
+    main { max-width: 880px; margin: 0 auto; padding-block: 40px 64px; }
+    h1 { font-size: 2.2rem; margin: 0 0 8px; color: var(--accent); text-shadow: 0 0 12px rgba(255,176,0,0.55); }
+    h1::before { content: "> "; color: var(--muted); }
+    h2 { font-size: 1.1rem; margin: 40px 0 12px; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px dashed var(--border); padding-bottom: 6px; }
+    h2::before { content: "## "; color: var(--muted); }
+    p.lead { color: var(--muted); margin-top: 0; }
+    a { color: var(--accent2); }
+    a:hover { color: var(--accent); }
+    .badges span { display:inline-block; border:1px solid var(--accent); border-radius:4px; padding:2px 10px; margin:0 6px 6px 0; font-size:.8rem; color:var(--accent2); background: rgba(255,176,0,0.06); }
+    .wrap { overflow-x: auto; }
+    table { width:100%; border-collapse: collapse; font-size: .92rem; }
+    th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+    th { color: var(--accent); font-weight:700; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9rem; }
+    code { background: var(--code); padding: 1px 6px; border-radius: 4px; color: var(--accent2); }
+    pre { background: var(--code); padding: 14px; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 6px; overflow-x:auto; max-width:100%; }
+    pre code { background: none; padding: 0; color: var(--fg); }
+    .cta { display:inline-block; margin: 12px 10px 0 0; padding: 8px 16px; border:1px solid var(--accent); border-radius:4px; text-decoration:none; color: var(--accent); background: rgba(255,176,0,0.06); }
+    .cta:hover { background: rgba(255,176,0,0.18); color: var(--fg); }
+    footer { margin-top: 48px; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--border); padding-top: 14px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>scaffold</h1>
+  <p class="lead">A Spring Boot platform that generates a ready-to-run microservice (entity, DTOs, MapStruct mapper, service, controller, tests, Dockerfile and compose file) from a web form or an HTTP request.</p>
+  <div class="badges">
+    <span>Java 21</span><span>Spring Boot 3.4.1</span><span>Spring Data JPA</span><span>FreeMarker</span><span>MapStruct</span><span>Docker</span>
+  </div>
+  <a class="cta" href="https://github.com/josesaid/scaffold">View source on GitHub</a>
+  <a class="cta" href="https://github.com/josesaid/scaffold#readme">Read the full README</a>
+
+  <h2>How it works</h2>
+  <p>You describe an application by name, its entity attributes and its options. <code>GeneratorService</code> renders the FreeMarker templates in <code>src/main/resources/templates</code> and writes a complete Spring Boot project. <code>ProcessManagerService</code> can start and stop the generated application, and <code>PortRegistryService</code> assigns its port.</p>
+
+  <h2>Stack and infrastructure</h2>
+  <div class="wrap">
+  <table>
+    <tr><th>Area</th><th>Status</th><th>Details</th></tr>
+    <tr><td>Persistence</td><td>H2 (dev)</td><td>MySQL and PostgreSQL support for generated projects, configured through environment variables</td></tr>
+    <tr><td>Messaging</td><td>Optional</td><td>Kafka and Zookeeper services can be included in generated compose files</td></tr>
+    <tr><td>Cloud</td><td>Not used</td><td>Runs locally</td></tr>
+    <tr><td>Docker</td><td>Used</td><td>Dockerfile and docker-compose templates; <code>start_docker_containers.sh</code> starts the shared containers</td></tr>
+  </table>
+  </div>
+
+  <h2>Run it locally</h2>
+  <pre><code>git clone https://github.com/josesaid/scaffold.git
+cd scaffold
+mvn spring-boot:run</code></pre>
+  <p>The application starts on <code>http://localhost:8080</code>. Requires JDK 21 and Maven 3.8 or later.</p>
+
+  <h2>Configuration and secrets</h2>
+  <p>No credentials are stored in this repository. Database passwords are read from environment variables such as <code>SPRING_DATASOURCE_PASSWORD</code>, <code>MYSQL_ROOT_PASSWORD</code>, <code>MYSQL_PASSWORD</code> and <code>POSTGRES_PASSWORD</code>. The full list is in the README.</p>
+
+  <h2>Endpoints</h2>
+  <div class="wrap">
+  <table>
+    <tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+    <tr><td>POST</td><td><code>/api/v1/applications</code></td><td>Register an application</td></tr>
+    <tr><td>GET</td><td><code>/api/v1/applications</code></td><td>List applications</td></tr>
+    <tr><td>GET</td><td><code>/api/v1/applications/{id}</code></td><td>Get one application</td></tr>
+    <tr><td>PUT</td><td><code>/api/v1/applications/{id}</code></td><td>Update an application</td></tr>
+    <tr><td>DELETE</td><td><code>/api/v1/applications/{id}</code></td><td>Delete an application</td></tr>
+    <tr><td>POST</td><td><code>/api/v1/generator/generate</code></td><td>Generate a project</td></tr>
+    <tr><td>GET</td><td><code>/api/v1/generator/ports</code></td><td>Show port assignments</td></tr>
+    <tr><td>POST</td><td><code>/api/v1/processes/{appId}/start</code></td><td>Start a generated application</td></tr>
+    <tr><td>POST</td><td><code>/api/v1/processes/{appId}/stop</code></td><td>Stop a generated application</td></tr>
+    <tr><td>GET</td><td><code>/api/v1/processes/{appId}/status</code></td><td>Process status</td></tr>
+  </table>
+  </div>
+
+  <footer>Source and documentation: <a href="https://github.com/josesaid/scaffold">github.com/josesaid/scaffold</a> · <a href="https://josesaid.github.io/">josesaid.github.io</a></footer>
+</main>
+</body>
+</html>

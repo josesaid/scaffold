@@ -53,9 +53,9 @@ wait_for_port() {
 start_container "scaffold-mysql" "docker run -d \
   --name scaffold-mysql \
   --network scaffold-net \
-  -e MYSQL_ROOT_PASSWORD=root123 \
+  -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD} \
   -e MYSQL_USER=said \
-  -e MYSQL_PASSWORD=said123 \
+  -e MYSQL_PASSWORD=${MYSQL_PASSWORD:?set MYSQL_PASSWORD} \
   -p 3306:3306 \
   -v scaffold_mysql_data:/var/lib/mysql \
   mysql:8.0"
@@ -65,7 +65,7 @@ start_container "scaffold-postgres" "docker run -d \
   --name scaffold-postgres \
   --network scaffold-net \
   -e POSTGRES_USER=said \
-  -e POSTGRES_PASSWORD=said123 \
+  -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD} \
   -p 5432:5432 \
   -v scaffold_postgres_data:/var/lib/postgresql/data \
   postgres:15-alpine"

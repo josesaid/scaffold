@@ -21,7 +21,8 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 # spring.datasource.url=jdbc:mysql://scaffold-mysql:3306/${entityNameLower}db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
 # spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 # spring.datasource.username=said
-# spring.datasource.password=said123
+# Password hidden: this value is not stored in the repository. Set the environment variable SPRING_DATASOURCE_PASSWORD before running the app.
+# spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:}
 # spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 <#elseif database == "mysql">
 # H2 (disabled) — uncomment to switch to in-memory:
@@ -34,14 +35,16 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 # spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 spring.datasource.url=jdbc:mysql://scaffold-mysql:3306/${entityNameLower}db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+# Password hidden: this value is not stored in the repository. Set the environment variable SPRING_DATASOURCE_PASSWORD before running the app.
 spring.datasource.username=said
-spring.datasource.password=said123
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:}
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 <#elseif database == "postgresql">
 spring.datasource.url=jdbc:postgresql://scaffold-postgres:5432/${entityNameLower}db
 spring.datasource.driver-class-name=org.postgresql.Driver
+# Password hidden: this value is not stored in the repository. Set the environment variable SPRING_DATASOURCE_PASSWORD before running the app.
 spring.datasource.username=said
-spring.datasource.password=said123
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:}
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 <#elseif database == "mongodb">
 spring.data.mongodb.uri=mongodb://localhost:27017/${entityNameLower}db

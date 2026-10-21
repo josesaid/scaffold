@@ -21,7 +21,8 @@ services:
 <#if needsMySQL>
       - SPRING_DATASOURCE_URL=jdbc:mysql://scaffold-mysql:3306/${entityNameLower}db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=said
-      - SPRING_DATASOURCE_PASSWORD=said123
+      # Password hidden: not stored in the repository. Export SPRING_DATASOURCE_PASSWORD before running docker compose.
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:?set SPRING_DATASOURCE_PASSWORD}
 </#if>
 <#if needsKafka>
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=scaffold-kafka:9092
@@ -45,8 +46,11 @@ services:
   scaffold-mysql-check:
     image: mysql:8.0
     container_name: ${entityNameLower}-mysql-check
+    # Password hidden: taken from the environment variable SPRING_DATASOURCE_PASSWORD (never stored in the file).
+    environment:
+      - MYSQL_PWD=${SPRING_DATASOURCE_PASSWORD:?set SPRING_DATASOURCE_PASSWORD}
     command: >
-      bash -c "i=0; until mysqladmin ping -h scaffold-mysql -u said -psaid123 --silent; do
+      bash -c "i=0; until mysqladmin ping -h scaffold-mysql -u said --silent; do
         i=$$((i+1)); if [ $$i -ge 15 ]; then echo 'MySQL timeout — continuing anyway'; exit 0; fi;
         echo 'Waiting for MySQL... ($$i/15)'; sleep 3; done; echo 'MySQL is ready'"
     networks:

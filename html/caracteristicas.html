@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaffold — Spring Boot Project Generator</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #222636;
+      --border: #2e3250;
+      --accent: #4f8ef7;
+      --accent2: #7c5cfc;
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --text: #e2e8f0;
+      --text-muted: #8892a4;
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #0f1117 0%, #1a1d27 50%, #0f1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(79,142,247,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, #e2e8f0 0%, var(--accent) 60%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    header p.subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .tech-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .pill.blue  { border-color: rgba(79,142,247,0.4);  color: #7eb8ff; }
+    .pill.purple{ border-color: rgba(124,92,252,0.4);  color: #b39dfa; }
+    .pill.green { border-color: rgba(34,197,94,0.4);   color: #6ee0a0; }
+
+    /* ── Layout ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Section titles ── */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    h2.section-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    section { margin-bottom: 64px; }
+
+    /* ── Cards grid ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(79,142,247,0.5);
+      box-shadow: 0 4px 24px rgba(79,142,247,0.08);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+      background: rgba(79,142,247,0.1);
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      background: rgba(79,142,247,0.1);
+      border: 1px solid rgba(79,142,247,0.2);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
+      color: #7eb8ff;
+      font-weight: 500;
+    }
+
+    /* ── Artifacts table ── */
+    .artifacts-grid {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .artifacts-grid table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .artifacts-grid thead {
+      background: var(--surface2);
+    }
+
+    .artifacts-grid th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .artifacts-grid td {
+      padding: 12px 16px;
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .artifacts-grid tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .code {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      background: rgba(79,142,247,0.1);
+      color: #7eb8ff;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+
+    /* ── API endpoints ── */
+    .endpoints {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .endpoint-header {
+      background: var(--surface2);
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .endpoint-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+
+    .endpoint-row:first-of-type { border-top: none; }
+    .endpoint-row:hover { background: rgba(255,255,255,0.02); }
+
+    .method {
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 8px;
+      min-width: 50px;
+      text-align: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .method.get    { background: rgba(34,197,94,0.15);  color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .method.post   { background: rgba(79,142,247,0.15); color: #7eb8ff; border: 1px solid rgba(79,142,247,0.3); }
+    .method.put    { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+    .method.delete { background: rgba(239,68,68,0.15);  color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+
+    .endpoint-path { color: var(--text); font-family: monospace; font-size: 13px; }
+    .endpoint-desc { color: var(--text-muted); font-size: 13px; margin-top: 2px; }
+
+    /* ── Options grid ── */
+    .options-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .option-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .option-card h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .option-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text);
+      padding: 4px 0;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── Roadmap ── */
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .version-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      position: relative;
+    }
+
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      padding: 3px 10px;
+      margin-bottom: 16px;
+    }
+
+    .version-badge.v11  { background: rgba(34,197,94,0.1);   color: #4ade80;  border: 1px solid rgba(34,197,94,0.3); }
+    .version-badge.v12  { background: rgba(79,142,247,0.1);  color: #7eb8ff;  border: 1px solid rgba(79,142,247,0.3); }
+    .version-badge.v13  { background: rgba(245,158,11,0.1);  color: #fbbf24;  border: 1px solid rgba(245,158,11,0.3); }
+    .version-badge.v20  { background: rgba(124,92,252,0.1);  color: #b39dfa;  border: 1px solid rgba(124,92,252,0.3); }
+
+    .roadmap-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-top: 1px solid var(--border);
+      font-size: 13.5px;
+    }
+
+    .roadmap-item:first-of-type { border-top: none; }
+
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .roadmap-item-text strong {
+      display: block;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .roadmap-item-text span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── Stack table ── */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .stack-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stack-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .stack-info { line-height: 1.3; }
+    .stack-name { font-weight: 600; font-size: 14px; color: var(--text); }
+    .stack-ver  { font-size: 12px; color: var(--text-muted); }
+
+    /* ── Status banner ── */
+    .status-bar {
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 48px;
+      font-size: 14px;
+    }
+
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+      flex-shrink: 0;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+      50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0.08); }
+    }
+
+    .status-bar strong { color: var(--green); }
+    .status-bar span   { color: var(--text-muted); }
+
+    /* ── Author ── */
+    .author-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 800; color: #fff;
+      flex-shrink: 0;
+    }
+
+    .author-info h3 { font-size: 1rem; font-weight: 700; }
+    .author-info p  { font-size: 13px; color: var(--text-muted); }
+
+    .links { display: flex; gap: 10px; margin-top: 8px; }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .link-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 0 64px;
+    }
+
+    @media (max-width: 640px) {
+      .cards, .roadmap, .stack-grid, .options-section { grid-template-columns: 1fr; }
+      .author-card { flex-direction: column; text-align: center; }
+      .links { justify-content: center; }
+      .endpoint-row { flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════ -->
+<header>
+  <div class="header-badge">⚡ Spring Boot · Java 21</div>
+  <h1>Scaffold</h1>
+  <p class="subtitle">
+    Plataforma de generacion de codigo para microservicios Spring Boot.
+    Define tu entidad, configura tus opciones y obtén un proyecto listo para producción en segundos.
+  </p>
+  <div class="tech-pills">
+    <span class="pill blue">Spring Boot 3.4.1</span>
+    <span class="pill blue">Java 21</span>
+    <span class="pill">Maven</span>
+    <span class="pill green">FreeMarker</span>
+    <span class="pill purple">MapStruct</span>
+    <span class="pill">Lombok</span>
+    <span class="pill">H2 / MySQL</span>
+    <span class="pill">Docker</span>
+    <span class="pill">Apache Kafka</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     MAIN
+════════════════════════════════════════════ -->
+<main>
+
+  <!-- Status -->
+  <div class="status-bar">
+    <div class="status-dot"></div>
+    <div>
+      <strong>Version 1.0.0-SNAPSHOT — Activo</strong>
+      <span> · Servidor disponible en http://localhost:8080 · H2 Console en /h2-console</span>
+    </div>
+  </div>
+
+  <!-- ── 1. STACK ── -->
+  <section>
+    <div class="section-label">🔧 Tecnologias</div>
+    <h2 class="section-title">Stack tecnologico</h2>
+    <p class="section-desc">Componentes y versiones utilizadas en el proyecto.</p>
+
+    <div class="stack-grid">
+      <div class="stack-item"><span class="stack-icon">☕</span><div class="stack-info"><div class="stack-name">Java</div><div class="stack-ver">Version 21 (LTS)</div></div></div>
+      <div class="stack-item"><span class="stack-icon">🌱</span><div class="stack-info"><div class="stack-name">Spring Boot</div><div class="stack-ver">3.4.1</div></div></div>
+      <div class="stack-item"><span class="stack-icon">🗄️</span><div class="stack-info"><div class="stack-name">Spring Data JPA</div><div class="stack-ver">H2 (dev) · MySQL (prod)</div></div></div>
+      <div class="stack-item"><span class="stack-icon">📄</span><div class="stack-info"><div class="stack-name">Apache FreeMarker</div><div class="stack-ver">Template engine</div></div></div>
+      <div class="stack-item"><span class="stack-icon">🔁</span><div class="stack-info"><div class="stack-name">MapStruct</div><div class="stack-ver">1.6.3</div></div></div>
+      <div class="stack-item"><span class="stack-icon">✂️</span><div class="stack-info"><div class="stack-name">Lombok</div><div class="stack-ver">1.18.36</div></div></div>
+      <div class="stack-item"><span class="stack-icon">✅</span><div class="stack-info"><div class="stack-name">Jakarta Validation</div><div class="stack-ver">Bean Validation</div></div></div>
+      <div class="stack-item"><span class="stack-icon">🐳</span><div class="stack-info"><div class="stack-name">Docker</div><div class="stack-ver">Docker Compose</div></div></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 2. FEATURES IMPLEMENTADAS ── -->
+  <section>
+    <div class="section-label">✅ Implementado</div>
+    <h2 class="section-title">Caracteristicas actuales</h2>
+    <p class="section-desc">Todo lo que el proyecto genera y gestiona en la version 1.0.</p>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <h3>Motor de Generacion de Codigo</h3>
+        <p>Engine basado en FreeMarker que produce un proyecto Spring Boot completo y compilable a partir de un solo request HTTP o formulario de UI.</p>
+        <div class="tag-list">
+          <span class="tag">FreeMarker</span>
+          <span class="tag">ZIP</span>
+          <span class="tag">20+ artefactos</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <h3>Sistema de Atributos de Entidad</h3>
+        <p>Definicion de campos personalizados por entidad con tipos Java, anotaciones Bean Validation y constraints JPA. Resolucion automatica de imports.</p>
+        <div class="tag-list">
+          <span class="tag">@NotBlank</span>
+          <span class="tag">@NotNull</span>
+          <span class="tag">@Email</span>
+          <span class="tag">@Size</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>Application Registry (CRUD API)</h3>
+        <p>API REST completa para gestionar definiciones de aplicaciones antes de la generacion. Soporta jerarquia de dos niveles: aplicacion raiz → microservicios hijo.</p>
+        <div class="tag-list">
+          <span class="tag">REST</span>
+          <span class="tag">CRUD</span>
+          <span class="tag">Self-referential</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🚀</div>
+        <h3>Generator API</h3>
+        <p>Endpoint de generacion con todas las opciones configurables: base de datos, version de Java, Spring Boot, Kafka, Swagger, arquitectura, empaquetado y mas.</p>
+        <div class="tag-list">
+          <span class="tag">H2</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">Kafka</span>
+          <span class="tag">OpenAPI</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎛️</div>
+        <h3>Process Manager</h3>
+        <p>Permite iniciar, detener y consultar el estado de los proyectos generados directamente desde la UI de Scaffold, sin salir del navegador.</p>
+        <div class="tag-list">
+          <span class="tag">start</span>
+          <span class="tag">stop</span>
+          <span class="tag">status</span>
+          <span class="tag">logs</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔌</div>
+        <h3>Port Registry</h3>
+        <p>Asignacion automatica de puertos desde 8101. Valida disponibilidad real via <code>ServerSocket</code> y persiste el estado en <code>ports-used.properties</code>.</p>
+        <div class="tag-list">
+          <span class="tag">Auto-assign</span>
+          <span class="tag">ServerSocket</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🐳</div>
+        <h3>Docker Auto-Startup</h3>
+        <p>Al arrancar Scaffold, detecta si Docker esta corriendo. Si no, lo lanza automaticamente (macOS o Linux) y espera hasta 60 segundos para que el daemon este disponible.</p>
+        <div class="tag-list">
+          <span class="tag">macOS</span>
+          <span class="tag">Linux</span>
+          <span class="tag">Docker Desktop</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🖥️</div>
+        <h3>Web UI (SPA)</h3>
+        <p>Aplicacion de una sola pagina en vanilla HTML/CSS/JS sin dependencias externas. Incluye tres temas, editor de atributos dinamico y controles de proceso.</p>
+        <div class="tag-list">
+          <span class="tag">Dark</span>
+          <span class="tag">Light</span>
+          <span class="tag">Enterprise</span>
+          <span class="tag">No framework</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🌱</div>
+        <h3>Data Seeder</h3>
+        <p>En el primer arranque inserta automaticamente un registro raiz <strong>"Scaffold"</strong> en la base de datos como contenedor de todos los microservicios generados.</p>
+        <div class="tag-list">
+          <span class="tag">Auto-seed</span>
+          <span class="tag">H2</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 3. ARTEFACTOS GENERADOS ── -->
+  <section>
+    <div class="section-label">📦 Artefactos</div>
+    <h2 class="section-title">Archivos generados por proyecto</h2>
+    <p class="section-desc">Cada proyecto generado incluye los siguientes artefactos listos para compilar y ejecutar.</p>
+
+    <div class="artifacts-grid">
+      <table>
+        <thead>
+          <tr>
+            <th>Artefacto</th>
+            <th>Descripcion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="code">Entity.java</span></td><td>Entidad JPA con todos los atributos, anotaciones e imports resueltos por tipo</td></tr>
+          <tr><td><span class="code">RequestDTO.java</span></td><td>DTO de entrada con anotaciones Bean Validation</td></tr>
+          <tr><td><span class="code">ResponseDTO.java</span></td><td>DTO de salida</td></tr>
+          <tr><td><span class="code">Mapper.java</span></td><td>Interfaz MapStruct (Entity ↔ DTO)</td></tr>
+          <tr><td><span class="code">Repository.java</span></td><td>Repositorio Spring Data JPA</td></tr>
+          <tr><td><span class="code">Service.java</span></td><td>Interfaz de servicio</td></tr>
+          <tr><td><span class="code">ServiceImpl.java</span></td><td>Implementacion CRUD completa</td></tr>
+          <tr><td><span class="code">Controller.java</span></td><td>Controlador REST con endpoints estandar</td></tr>
+          <tr><td><span class="code">GlobalExceptionHandler.java</span></td><td><code>@RestControllerAdvice</code> con manejo HTTP 404</td></tr>
+          <tr><td><span class="code">OpenApiConfig.java</span></td><td>Configuracion Springdoc OpenAPI (cuando Swagger esta habilitado)</td></tr>
+          <tr><td><span class="code">application.properties</span> / <span class="code">.yml</span></td><td>Configuracion completa de BD, JPA y puerto</td></tr>
+          <tr><td><span class="code">Dockerfile</span></td><td>Build multi-etapa (auto-generado con MySQL o Kafka)</td></tr>
+          <tr><td><span class="code">docker-compose.yml</span></td><td>Incluye MySQL y/o Kafka + Zookeeper</td></tr>
+          <tr><td><span class="code">KafkaProducer.java</span></td><td>Productor Kafka (cuando esta habilitado)</td></tr>
+          <tr><td><span class="code">KafkaConsumer.java</span></td><td>Consumidor Kafka con <code>@KafkaListener</code></td></tr>
+          <tr><td><span class="code">ServiceTest.java</span></td><td>Skeleton de pruebas unitarias JUnit 5 + Mockito</td></tr>
+          <tr><td><span class="code">index.html</span></td><td>Landing page del microservicio generado</td></tr>
+          <tr><td><span class="code">README.md</span></td><td>Documentacion especifica del proyecto</td></tr>
+          <tr><td><span class="code">start_&lt;name&gt;.sh</span></td><td>Script ejecutable (Maven o Docker Compose)</td></tr>
+          <tr><td><span class="code">&lt;name&gt;.zip</span></td><td>Proyecto completo empaquetado y descargable</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 4. OPCIONES DE GENERACION ── -->
+  <section>
+    <div class="section-label">🎚️ Configuracion</div>
+    <h2 class="section-title">Opciones de generacion</h2>
+    <p class="section-desc">Parametros disponibles al generar un nuevo proyecto desde la UI o la API.</p>
+
+    <div class="options-section">
+
+      <div class="option-card">
+        <h4>Spring Boot version</h4>
+        <div class="option-value"><div class="dot"></div>3.4.1</div>
+        <div class="option-value"><div class="dot"></div>3.3.7</div>
+        <div class="option-value"><div class="dot"></div>3.2.12</div>
+      </div>
+
+      <div class="option-card">
+        <h4>Java version</h4>
+        <div class="option-value"><div class="dot"></div>Java 21 (LTS)</div>
+        <div class="option-value"><div class="dot"></div>Java 17 (LTS)</div>
+        <div class="option-value"><div class="dot"></div>Java 11</div>
+      </div>
+
+      <div class="option-card">
+        <h4>Base de datos</h4>
+        <div class="option-value"><div class="dot"></div>H2 (embebida)</div>
+        <div class="option-value"><div class="dot"></div>MySQL</div>
+      </div>
+
+      <div class="option-card">
+        <h4>Empaquetado</h4>
+        <div class="option-value"><div class="dot"></div>JAR</div>
+        <div class="option-value"><div class="dot"></div>WAR</div>
+      </div>
+
+      <div class="option-card">
+        <h4>Formato de config</h4>
+        <div class="option-value"><div class="dot"></div>application.properties</div>
+        <div class="option-value"><div class="dot"></div>application.yml</div>
+      </div>
+
+      <div class="option-card">
+        <h4>Arquitectura</h4>
+        <div class="option-value"><div class="dot"></div>Modular (por capas)</div>
+        <div class="option-value"><div class="dot"></div>Flat (un solo package)</div>
+      </div>
+
+      <div class="option-card">
+        <h4>Dependencias opcionales</h4>
+        <div class="option-value"><div class="dot"></div>Lombok</div>
+        <div class="option-value"><div class="dot"></div>MapStruct</div>
+        <div class="option-value"><div class="dot"></div>Spring Security</div>
+        <div class="option-value"><div class="dot"></div>Spring Cache</div>
+        <div class="option-value"><div class="dot"></div>Spring Actuator</div>
+        <div class="option-value"><div class="dot"></div>Springdoc OpenAPI</div>
+      </div>
+
+      <div class="option-card">
+        <h4>Kafka</h4>
+        <div class="option-value"><div class="dot"></div>Producer</div>
+        <div class="option-value"><div class="dot"></div>Consumer</div>
+        <div class="option-value"><div class="dot"></div>Nombre de topic personalizado</div>
+      </div>
+
+      <div class="option-card">
+        <h4>Artefactos adicionales</h4>
+        <div class="option-value"><div class="dot"></div>Dockerfile</div>
+        <div class="option-value"><div class="dot"></div>docker-compose</div>
+        <div class="option-value"><div class="dot"></div>README.md</div>
+        <div class="option-value"><div class="dot"></div>Unit tests</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 5. APIs ── -->
+  <section>
+    <div class="section-label">🔗 API Reference</div>
+    <h2 class="section-title">Endpoints disponibles</h2>
+    <p class="section-desc">Todos los endpoints REST expuestos por la version actual.</p>
+
+    <div class="endpoints">
+      <div class="endpoint-header">Application Registry — /api/v1/applications</div>
+      <div class="endpoint-row">
+        <span class="method post">POST</span>
+        <div><div class="endpoint-path">/api/v1/applications</div><div class="endpoint-desc">Crear nueva definicion de aplicacion</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method get">GET</span>
+        <div><div class="endpoint-path">/api/v1/applications</div><div class="endpoint-desc">Listar todas las aplicaciones registradas</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method get">GET</span>
+        <div><div class="endpoint-path">/api/v1/applications/{id}</div><div class="endpoint-desc">Obtener una aplicacion especifica</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method put">PUT</span>
+        <div><div class="endpoint-path">/api/v1/applications/{id}</div><div class="endpoint-desc">Actualizar metadata y atributos</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method delete">DELETE</span>
+        <div><div class="endpoint-path">/api/v1/applications/{id}</div><div class="endpoint-desc">Eliminar aplicacion y sus atributos</div></div>
+      </div>
+    </div>
+
+    <div class="endpoints">
+      <div class="endpoint-header">Generator — /api/v1/generator</div>
+      <div class="endpoint-row">
+        <span class="method post">POST</span>
+        <div><div class="endpoint-path">/api/v1/generator/generate</div><div class="endpoint-desc">Generar proyecto Spring Boot completo</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method get">GET</span>
+        <div><div class="endpoint-path">/api/v1/generator/ports</div><div class="endpoint-desc">Listar todos los puertos asignados</div></div>
+      </div>
+    </div>
+
+    <div class="endpoints">
+      <div class="endpoint-header">Process Manager — /api/v1/processes</div>
+      <div class="endpoint-row">
+        <span class="method post">POST</span>
+        <div><div class="endpoint-path">/api/v1/processes/{appId}/start</div><div class="endpoint-desc">Iniciar proyecto generado</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method post">POST</span>
+        <div><div class="endpoint-path">/api/v1/processes/{appId}/stop</div><div class="endpoint-desc">Detener proyecto en ejecucion</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method get">GET</span>
+        <div><div class="endpoint-path">/api/v1/processes/{appId}/status</div><div class="endpoint-desc">Estado del proceso: starting · running · stopped · error</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method get">GET</span>
+        <div><div class="endpoint-path">/api/v1/processes</div><div class="endpoint-desc">Listar todos los puertos registrados</div></div>
+      </div>
+      <div class="endpoint-row">
+        <span class="method post">POST</span>
+        <div><div class="endpoint-path">/api/v1/processes/{appId}/register</div><div class="endpoint-desc">Registrar directorio y puerto de un proyecto</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 6. ROADMAP ── -->
+  <section>
+    <div class="section-label">🗺️ Roadmap</div>
+    <h2 class="section-title">Versiones futuras</h2>
+    <p class="section-desc">Caracteristicas planificadas para las proximas versiones del generador.</p>
+
+    <div class="roadmap">
+
+      <div class="version-card">
+        <div class="version-badge v11">v1.1 — Bases de datos y Testing</div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>PostgreSQL support</strong>
+            <span>Template de datasource y driver PostgreSQL en el engine</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>MongoDB support</strong>
+            <span>Entidades @Document y repositorios Spring Data MongoDB</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Integration tests</strong>
+            <span>@SpringBootTest con Testcontainers para MySQL/PostgreSQL</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Postman collection</strong>
+            <span>Exportar coleccion lista para importar por proyecto generado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="version-card">
+        <div class="version-badge v12">v1.2 — Seguridad y Observabilidad</div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Spring Security scaffolding</strong>
+            <span>JWT filter chain, token provider y UserDetailsService</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Spring Cache scaffolding</strong>
+            <span>@EnableCaching con Redis o Caffeine segun el proyecto</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Spring Actuator</strong>
+            <span>Endpoints de health, metrics e info preconfigurados</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="version-card">
+        <div class="version-badge v13">v1.3 — CI/CD e Infraestructura</div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Multi-module Maven</strong>
+            <span>POM padre + submodulos para arquitecturas de microservicios</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>GitHub Actions CI/CD</strong>
+            <span>Pipeline .github/workflows/ci.yml con build, test y Docker push</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Kubernetes manifests</strong>
+            <span>Deployment, Service y ConfigMap YAML por microservicio</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="version-card">
+        <div class="version-badge v20">v2.0 — Cloud y Plataforma</div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Cloud deployment</strong>
+            <span>Deploy con un click a AWS ECS o GCP Cloud Run desde la UI</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Version control de proyectos</strong>
+            <span>Historial de generacion con diff entre versiones</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="checkbox"></div>
+          <div class="roadmap-item-text">
+            <strong>Plugin system</strong>
+            <span>Templates FreeMarker personalizados como plugins registrables</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 7. AUTHOR ── -->
+  <section>
+    <div class="section-label">👤 Autor</div>
+    <h2 class="section-title">Sobre el proyecto</h2>
+    <p class="section-desc">Desarrollado y mantenido por:</p>
+
+    <div class="author-card">
+      <div class="avatar">JS</div>
+      <div class="author-info">
+        <h3>Jose Said Olano Garcia</h3>
+        <p>Senior Software Development Manager</p>
+        <div class="links">
+          <a class="link-btn" href="https://www.linkedin.com/in/josesaid" target="_blank">
+            🔗 LinkedIn
+          </a>
+          <a class="link-btn" href="https://github.com/josesaid" target="_blank">
+            🐙 GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Scaffold v1.0.0 &nbsp;·&nbsp; Spring Boot 3.4.1 · Java 21 · FreeMarker · MapStruct · Lombok &nbsp;·&nbsp; Todos los derechos reservados</p>
+</footer>
+
+</body>
+</html>

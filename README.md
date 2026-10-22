@@ -1,5 +1,7 @@
 # Scaffold — Spring Boot Project Generator
 
+![Java: 21](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white) ![Spring_Boot: 3.4.1](https://img.shields.io/badge/Spring_Boot-3.4.1-6DB33F?logo=springboot&logoColor=white) ![Database: H2_and_MySQL](https://img.shields.io/badge/Database-H2_and_MySQL-4479A1?logo=mysql&logoColor=white) [![Project page](https://img.shields.io/badge/Project_page-GitHub_Pages-2f80ed?logo=github&logoColor=white)](https://josesaid.github.io/scaffold/)
+
 **Scaffold** is a full-stack code generation platform built with Spring Boot. It allows developers to define a microservice by name, entity attributes, and configuration options through a web UI, and instantly receive a ready-to-run, production-structured Spring Boot project — complete with source code, Dockerfile, docker-compose, start scripts, and unit tests.
 
 ---
